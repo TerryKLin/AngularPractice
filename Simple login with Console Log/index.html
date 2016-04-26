@@ -1,0 +1,80 @@
+<!DOCTYPE html >
+<!--
+	Modules : minmax
+	It orgainize all the code and it expects you to follow the syntax
+-->
+<html lang="en" ng-app="minmax" >
+<head >
+	<title >Controllers</title >
+	<link href="../libs/bootstrap/dist/css/bootstrap.min.css"
+	      rel="stylesheet" >
+	<link href="main.css"
+	      rel="stylesheet" >
+</head >
+
+<body >
+
+<nav class="navbar navbar-inverse navbar-fixed-top" >
+	<div class="container" >
+		<div class="navbar-header" >
+			<a class="navbar-brand"
+			   href="/" >Controllers
+			</a >
+		</div >
+		,
+	</div >
+</nav >
+
+<!--
+	Controller associates with DOM elements and all off its childern with js modules where they contain all of the business logics
+
+	ng-model (formModel) is linked with the formModel in main.js
+-->
+<div class="container main-content" ng-controller="MinMaxCtrl">
+
+	<form >
+		<div class="form-group" >
+			<label for="name" >Name</label >
+			<input type="text"
+			       class="form-control"
+			       ng-model="formModel.name"
+			       id="name" >
+		</div >
+
+		<div class="form-group" >
+			<label for="email" >Email</label >
+			<input type="email"
+			       class="form-control"
+			       ng-model="formModel.email"
+			       id="email" >
+		</div >
+
+		<div class="form-group" >
+			<label for="password" >Password</label >
+			<input type="password"
+			       class="form-control"
+			       ng-model="formModel.password"
+			       id="password" >
+		</div >
+
+		<div class="form-group" >
+			<!--New directive called ng-click() will capture the click on the button, and it will call onSubmit function on the MinMax controller-->
+			<button class="btn btn-primary" ng-click="onSubmit()" >Register
+			</button >
+		</div >
+
+	</form >
+	
+	<!--
+		Allows developer to see what's going on with the form fields
+	-->
+	<pre>{{formModel | json}}</pre>
+
+</div >
+
+<script src="../libs/angular/angular.min.js" ></script >
+<script src="main.js" ></script >
+
+
+</body >
+</html >
