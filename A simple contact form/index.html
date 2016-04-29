@@ -28,9 +28,22 @@
 						   class = "form-control"
 						   id = "name"
 						   ng-model="search"
-						   placeholder= "Search Name or Email " 
+						   placeholder= "Search Name or Email" 
 					> <!--serach.$ will search for every attribute within the person object-->
 				</div>
+
+				<span class="glyphicon glyphicon-sort-by-attributes" ></span >
+
+				<div class="form-group" >
+					<select class="form-control"
+									ng-model="order">
+						<option value="name" >Name (ASC)</option >
+						<option value="-name" >Name (DEC)</option >
+						<option value="email" >Email (ASC)</option >
+						<option value="-email" >Email (DEC)</option >
+					</select >
+				</div >
+
 			</form>
 		</div>
 	</div>
@@ -46,8 +59,9 @@
 				</tr>
 
 				<!--ng-repeat: Angular will generate a tr row for each person is persons array
-				    ng-style : Style the rows-->
-				<tr ng-repeat="person in persons | filter:sensitiveSearch"
+				    ng-style : Style the rows
+				    orderBy : '' normal string is ascending order, - is descending-->
+				<tr ng-repeat="person in persons | filter:sensitiveSearch | orderBy: order"
 				    ng-style ="{
 					'background-color': $index == selectedIndex ? 'lightgrey' : ''
 					}"
