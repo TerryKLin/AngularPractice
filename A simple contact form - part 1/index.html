@@ -20,6 +20,31 @@
 <div class="container main-content" ng-controller="PersonsController">
 	
 	<div class = "row">
+		<div class = "col-md-12">
+			<form class = "form-inline well well-sm">
+				<span class = "glyphicon glyphicon-search"></span>
+				<div class = "form-group">
+					<input type = "text"
+						   class = "form-control"
+						   id = "name"
+						   ng-model="search.name"
+						   placeholder= "Search Name " 
+					>
+				</div>
+					
+				<div class = "form-group">		
+					<input type = "text"
+						   class = "form-control"
+						   id = "email"
+						   ng-model="search.email"
+						   placeholder= "Search Email " 
+					>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class = "row">
 		<div class = "col-md-8">
 			<table class = "table table-bordered">
 				<tr>
@@ -31,7 +56,7 @@
 
 				<!--ng-repeat: Angular will generate a tr row for each person is persons array
 				    ng-style : Style the rows-->
-				<tr ng-repeat="person in persons"
+				<tr ng-repeat="person in persons | filter:search"
 				    ng-style ="{
 					'background-color': $index == selectedIndex ? 'lightgrey' : ''
 					}"
@@ -67,9 +92,10 @@
 					</dl>
 				</div>
 			</div>
+			<pre>{{ search }}</pre>
 		</div>
 	</div >
-
+</div>
 
 <script src="../libs/angular/angular.min.js"></script>
 <script src="main.js"></script >
