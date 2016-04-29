@@ -27,18 +27,9 @@
 					<input type = "text"
 						   class = "form-control"
 						   id = "name"
-						   ng-model="search.name"
-						   placeholder= "Search Name " 
-					>
-				</div>
-					
-				<div class = "form-group">		
-					<input type = "text"
-						   class = "form-control"
-						   id = "email"
-						   ng-model="search.email"
-						   placeholder= "Search Email " 
-					>
+						   ng-model="search"
+						   placeholder= "Search Name or Email " 
+					> <!--serach.$ will search for every attribute within the person object-->
 				</div>
 			</form>
 		</div>
@@ -56,7 +47,7 @@
 
 				<!--ng-repeat: Angular will generate a tr row for each person is persons array
 				    ng-style : Style the rows-->
-				<tr ng-repeat="person in persons | filter:search"
+				<tr ng-repeat="person in persons | filter:sensitiveSearch"
 				    ng-style ="{
 					'background-color': $index == selectedIndex ? 'lightgrey' : ''
 					}"
