@@ -1,17 +1,22 @@
-var app = angular.module('codecraft', []);
+var app = angular.module('codecraft', [
+	'ngResource'
 
-//Inject the ContactService we just created
+]);
+
+//Config is called before the $http service 
+app.config(function ($httpProvider) {
+	$httpProvider.defaults.headers.common['Authorization'] = '';//Token here
+	$resourceProvider.defaults.stripTrailingSlashes = false; // Stop the trailing slashes from being stripped
+});
+
 app.controller('PersonDetailController', function ($scope, ContactService) {
 	$scope.contacts = ContactService;
 });
 
-//Inject the ContactService we just created
 app.controller('PersonListController', function ($scope, ContactService) {
 
 	$scope.search = "";
 	$scope.order = "email";
-
-	//Created the contacts model to bind the service
 	$scope.contacts = ContactService;
 
 	$scope.sensitiveSearch = function (person) {
@@ -24,7 +29,6 @@ app.controller('PersonListController', function ($scope, ContactService) {
 
 });
 
-// Customized services, always return an object
 app.service('ContactService', function () {
 
 	return {
