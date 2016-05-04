@@ -29,6 +29,7 @@ app.controller('PersonListController', function ($scope, ContactService) {
 	$scope.contacts = ContactService;
 	$scope.loadMore = function(){
 		console.log("Load More");
+		$scope.contacts.loadMore();
 	};
 
 	$scope.sensitiveSearch = function (person) {
@@ -55,12 +56,33 @@ app.service('ContactService', function (Contact) {
 		'selectedPerson': null,
 		'persons': [],
 		'loadContacts': function(){
-			Contact.get(function(data){
-				console.log(data);
-				angular.forEach(data.results,function(person){
-					self.persons.push(new Contact(person));
-				})
-			});
+			//Wrap the function inside the if statement and run it if there's more data and isLoading function is not called
+			if(self.hasMore && !self.isLoading){
+				self.isLoading = true;
+
+				// Include this in the indicate the page number we want to 
+				var params = {
+					'page':self.page
+				};
+				// The first parameter will be sent as query parameter at the end of the URL
+				Contact.get(params,function(data){
+					console.log(data);
+					angular.forEach(data.results,function(person){
+						self.persons.push(new Contact(person));
+					})
+					//If there's no more data, set the hasMore function to false
+					if(!data.next){
+						self.hasMore = false;
+					}
+					self.isLoading = false;
+				});
+			}
+		},
+		'loadMore':function(){
+			if(self.hasMore && !self.isLoading){
+				self.page += 1;
+				self.loadContacts();
+			}
 		}
 
 	};
