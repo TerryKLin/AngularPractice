@@ -1,14 +1,19 @@
 var app = angular.module('codecraft', [
 	'ngResource',
 	'infinite-scroll',
-	'angularSpinner'
+	'angularSpinner',
+	'jcs-autoValidate',
+	'angular-ladda'
 
 ]);
 
 //Config is called before the $http service 
-app.config(function ($httpProvider,$resourceProvider) {
+app.config(function ($httpProvider,$resourceProvider,laddaProvider) {
 	$httpProvider.defaults.headers.common['Authorization'] = '';//Token here
 	$resourceProvider.defaults.stripTrailingSlashes = false; // Stop the trailing slashes from being stripped
+	laddaProvider.setOption({
+		style:'expand-right'
+	});
 });
 
 app.factory("Contact", function ($resource) {
