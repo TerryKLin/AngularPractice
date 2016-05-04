@@ -31,15 +31,6 @@ app.controller('PersonListController', function ($scope, ContactService) {
 		console.log("Load More");
 		$scope.contacts.loadMore();
 	};
-
-	$scope.sensitiveSearch = function (person) {
-		if ($scope.search) {
-			return person.name.indexOf($scope.search) == 0 ||
-				person.email.indexOf($scope.search) == 0;
-		}
-		return true;
-	};
-
 });
 
 app.service('ContactService', function (Contact) {
