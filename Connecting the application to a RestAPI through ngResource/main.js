@@ -1,5 +1,6 @@
 var app = angular.module('codecraft', [
-	'ngResource'
+	'ngResource',
+	'infinite-scroll'
 
 ]);
 
@@ -26,6 +27,9 @@ app.controller('PersonListController', function ($scope, ContactService) {
 	$scope.search = "";
 	$scope.order = "email";
 	$scope.contacts = ContactService;
+	$scope.loadMore = function(){
+		console.log("Load More");
+	};
 
 	$scope.sensitiveSearch = function (person) {
 		if ($scope.search) {
