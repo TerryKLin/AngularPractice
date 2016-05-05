@@ -104,6 +104,12 @@ app.service('ContactService', function (Contact) {
 				Contact.get(params,function(data){
 					console.log(data);
 					angular.forEach(data.results,function(person){
+						/*
+						
+						 When we created the list of people, we stored a new resource of person. 
+						 This means we can use the functions to interact with the resource on top of the person object
+						
+						*/
 						self.persons.push(new Contact(person));
 					})
 					//If there's no more data, set the hasMore function to false
@@ -123,7 +129,7 @@ app.service('ContactService', function (Contact) {
 		'updateContact':function(person){
 			console.log('Service Call Updated');
 			self.isSaving = true;
-			Contact.update(person).$promise.then(function(){
+			person.$update().then(function(){
 				self.isSaving = false;
 			});
 		}
