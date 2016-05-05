@@ -17,6 +17,7 @@ app.config(function ($httpProvider,$resourceProvider,laddaProvider) {
 });
 
 app.factory("Contact", function ($resource) {
+	//Including the PUT method since Angular Resource does not support it in default
 	return $resource("https://codecraftpro.com/api/samples/v1/contact/:id/", {id: '@id'}, {
 		update: {
 			method: 'PUT'
@@ -26,6 +27,11 @@ app.factory("Contact", function ($resource) {
 
 app.controller('PersonDetailController', function ($scope, ContactService) {
 	$scope.contacts = ContactService;
+
+	//Update function upon save button is clicked
+	$scope.save = function(){
+		$scope.contacts.updateContact($scope.contacts.selectedPerson)
+	}
 });
 
 app.controller('PersonListController', function ($scope, ContactService) {
@@ -63,6 +69,7 @@ app.service('ContactService', function (Contact) {
 		'page': 1,
 		'hasMore':true,
 		'isLoading':false, // These 3 are for paginating data
+		'isSaving':false, 
 		'selectedPerson': null,
 		'persons': [],
 		'search': null,
@@ -112,8 +119,14 @@ app.service('ContactService', function (Contact) {
 				self.page += 1;
 				self.loadContacts();
 			}
+		},
+		'updateContact':function(person){
+			console.log('Service Call Updated');
+			self.isSaving = true;
+			Contact.update(person).$promise.then(function(){
+				self.isSaving = false;
+			});
 		}
-
 	};
 
 	self.loadContacts();
