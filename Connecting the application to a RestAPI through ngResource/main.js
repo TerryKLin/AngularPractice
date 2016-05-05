@@ -4,7 +4,7 @@ var app = angular.module('codecraft', [
 	'angularSpinner',
 	'jcs-autoValidate',
 	'angular-ladda',
-	'mgcrea-ngStrap'
+	'mgcrea.ngStrap'
 
 ]);
 
@@ -53,11 +53,11 @@ app.controller('PersonListController', function ($scope, $modal, ContactService)
 
 	$scope.showCreateModal = function(){
 		$scope.createModal = $modal({
-			scope = $scope,
+			scope : $scope,
 			template: 'templates/modal.create.tpl.html',
 			show:true
-		});
-	}
+		})
+	};
 
 	$scope.$watch('search',function(newVal,oldVal){
 		//Check if new value is defined, since it msut be defined
