@@ -3,7 +3,8 @@ var app = angular.module('codecraft', [
 	'infinite-scroll',
 	'angularSpinner',
 	'jcs-autoValidate',
-	'angular-ladda'
+	'angular-ladda',
+	'mgcrea-ngStrap'
 
 ]);
 
@@ -39,7 +40,8 @@ app.controller('PersonDetailController', function ($scope, ContactService) {
 	}
 });
 
-app.controller('PersonListController', function ($scope, ContactService) {
+//To use the modal within the controller, we need to inject a service called modal here
+app.controller('PersonListController', function ($scope, $modal, ContactService) {
 
 	$scope.search = "";
 	$scope.order = "email";
@@ -48,6 +50,15 @@ app.controller('PersonListController', function ($scope, ContactService) {
 		console.log("Load More");
 		$scope.contacts.loadMore();
 	};
+
+	$scope.showCreateModal = function(){
+		$scope.createModal = $modal({
+			scope = $scope,
+			template: 'templates/modal.create.tpl.html',
+			show:true
+		});
+	}
+
 	$scope.$watch('search',function(newVal,oldVal){
 		//Check if new value is defined, since it msut be defined
 		if(angular.isDefined(newVal)){
