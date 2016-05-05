@@ -32,6 +32,11 @@ app.controller('PersonDetailController', function ($scope, ContactService) {
 	$scope.save = function(){
 		$scope.contacts.updateContact($scope.contacts.selectedPerson)
 	}
+
+	//Delete operation
+	$scope.remove = function(){
+		$scope.contacts.removeContact($scope.contacts.selectedPerson)
+	}
 });
 
 app.controller('PersonListController', function ($scope, ContactService) {
@@ -132,7 +137,17 @@ app.service('ContactService', function (Contact) {
 			person.$update().then(function(){
 				self.isSaving = false;
 			});
-		}
+		},
+		'removeContact':function(person){
+			self.isDeleting = true;
+			//Built in remove function, which will send a http delete msg to API endpoint
+			person.$remove().then(function(){
+				self.isDeleting = false;
+				var index = self.persons.indexOf(person);
+				self.persons.splice(index,1);
+				self.selectedPerson = null;
+			});
+		},	
 	};
 
 	self.loadContacts();
