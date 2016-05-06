@@ -4,6 +4,8 @@
 <head >
 	<title >Contacts</title >
 	<link href="../libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" >
+	<link href="../libs/bootstrap-additions/dist/bootstrap-additions.min.css" rel="stylesheet" >
+	<link href="../libs/angularjs-toaster/toaster.min.css" rel="stylesheet" >
 	<link href="../libs/ladda/dist/ladda-themeless.min.css" rel="stylesheet" >
 	<link href="main.css" rel="stylesheet" >
 </head >
@@ -20,6 +22,8 @@
 </nav >
 
 <div class="container main-content" >
+
+	<toaster-container></toaster-container>
 
 	<div class="row">
 		<div class="col-md-8"  ng-controller="PersonListController">
@@ -72,7 +76,7 @@
 								<span ng-click="order = '-email'"
 								      class="glyphicon glyphicon-menu-down" ></span >
 							</th >
-							<th >Birthday</th >
+							<th >Phone Number</th >
 						</tr >
 
 						<tr ng-repeat="person in contacts.persons"
@@ -80,10 +84,12 @@
 							 'background-color': person.email == contacts.selectedPerson.email ? 'lightgray' : ''
 						}"
 						    ng-click="contacts.selectedPerson = person" >
-							<td >{{ $index }}</td >
+							<td ><img ng-src="{{person.photo}}" 
+									  class = "img-circle profile-photo"
+							 		  alt=""></td >
 							<td >{{ person.name }}</td >
 							<td >{{ person.email }}</td >
-							<td >{{ person.birthdate | date:"longDate" }}</td >
+							<td >{{ person.phonenumber}}</td >
 						</tr >
 						
 
@@ -134,6 +140,7 @@
 
 <script src="../libs/angular/angular.min.js" ></script>
 <script src="../libs/angular-resource/angular-resource.min.js" ></script>
+<script src="../libs/angular-animate/angular-animate.min.js" ></script>
 <script src="../libs/ngInfiniteScroll/build/ng-infinite-scroll.min.js" ></script>
 <script src="../libs/spin.js/spin.js" ></script>
 <script src="../libs/angular-spinner/angular-spinner.min.js" ></script>
@@ -142,6 +149,7 @@
 <script src="../libs/angular-ladda/dist/angular-ladda.min.js" ></script>
 <script src="../libs/angular-strap/dist/angular-strap.min.js" ></script>
 <script src="../libs/angular-strap/dist/angular-strap.tpl.min.js" ></script>
+<script src="../libs/angularjs-toaster/toaster.min.js" ></script>
 <script src="main.js" ></script>
 </body >
 </html >
