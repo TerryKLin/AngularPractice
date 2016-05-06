@@ -63,6 +63,9 @@ app.controller('PersonListController', function ($scope, $modal, ContactService)
 	$scope.createContact = function(){
 		console.log('Contact Created');
 		$scope.contacts.createContact($scope.contacts.selectedPerson)
+		.then(function(){
+			$scope.createModal.hide();
+		})
 	}
 
 	$scope.$watch('search',function(newVal,oldVal){
@@ -80,10 +83,8 @@ app.controller('PersonListController', function ($scope, $modal, ContactService)
 	})
 });
 
-app.service('ContactService', function (Contact) {
-
-	
-
+// Inject the q service, which enables you to create promise that can be returned as function
+app.service('ContactService', function (Contact,$q) {
 	var self = {
 		'addPerson': function (person) {
 			this.persons.push(person);
@@ -166,10 +167,18 @@ app.service('ContactService', function (Contact) {
 			});
 		},
 		'createContact': function(person){
+			var d = $q.defer();
 			self.isSaving = true;
 			Contact.save(person).$promise.then(function(){
 				self.isSaving = false;
+				self.selectedPerson = null;
+				self.hasMore = true;
+				self.page = 1;
+				self.persons = [];
+				self.loadContacts()
+				d.resolve()
 			});
+			return d.promise;
 		},
 	};
 
