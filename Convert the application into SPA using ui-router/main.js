@@ -71,12 +71,21 @@ app.factory("Contact", function ($resource) {
 	});
 });
 
-app.controller('PersonDetailController', function ($scope, ContactService) {
+//Added $stateParams parameter, which was defined in the app.config
+app.controller('PersonDetailController', function ($scope,$stateParams,$state, ContactService) {
+	console.log($stateParams);
+
+
 	$scope.contacts = ContactService;
+
+	//Using this to create a initiate the trigger to pop up the edit form
+	$scope.contacts.selectedPerson = $scope.contacts.getPerson($stateParams.email);
+
 
 
 	$scope.save = function () {
-		$scope.contacts.updateContact($scope.contacts.selectedPerson)
+		$scope.contacts.updateContact($scope.contacts.selectedPerson);
+		$state.go("list");
 	};
 
 	$scope.remove = function () {
@@ -130,8 +139,15 @@ app.service('ContactService', function (Contact, $q, toaster) {
 
 
 	var self = {
-		'addPerson': function (person) {
-			this.persons.push(person);
+		'getPerson': function (email) {
+			console.log(email);
+			for (var i = 0; i < self.persons.length; i++) {
+				var obj = self.persons[i];
+				if (obj.email == email) {
+					return obj;
+				}
+
+			}
 		},
 		'page': 1,
 		'hasMore': true,
