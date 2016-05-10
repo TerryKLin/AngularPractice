@@ -12,9 +12,26 @@ var app = angular.module('codecraft', [
 
 //These providers are from the ui-router package
 app.config(function($stateProvider,$urlRouterProvider){
-	$stateProvider.state('list',{
+	$stateProvider
+	.state('list',{
 		url:"/",
 		templateUrl:'templates/list.html',
+
+		/*This parameters directs everything happens in the list route
+		  When we hit the list route, insert the list.html template, and using
+		  the PersonListController to orchestrate the rest 
+		*/
+		controller:'PersonListController'
+	})
+	.state('edit',{
+		url:"/edit/:email",
+		templateUrl:'templates/edit.html',
+
+		/*This parameters directs everything happens in the list route
+		  When we hit the list route, insert the list.html template, and using
+		  the PersonDetailController to orchestrate the rest 
+		*/
+		controller:'PersonDetailController'
 	});
 	$urlRouterProvider.otherwise('/');
 });
