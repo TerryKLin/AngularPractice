@@ -26,13 +26,14 @@ app.config(function($stateProvider,$urlRouterProvider){
 	.state('edit',{
 		url:"/edit/:email",
 		templateUrl:'templates/edit.html',
-
-		/*This parameters directs everything happens in the list route
-		  When we hit the list route, insert the list.html template, and using
-		  the PersonDetailController to orchestrate the rest 
-		*/
 		controller:'PersonDetailController'
+	})
+	.state('create',{
+		url:"/create",
+		templateUrl:'templates/edit.html',
+		controller:'PersonCreateController'
 	});
+
 	$urlRouterProvider.otherwise('/');
 });
 
@@ -73,15 +74,14 @@ app.factory("Contact", function ($resource) {
 
 //Added $stateParams parameter, which was defined in the app.config
 app.controller('PersonDetailController', function ($scope,$stateParams,$state, ContactService) {
-	console.log($stateParams);
+	//The scope vairable will inform the controller on what context the template is being used
+	$scope.mode = "Edit";
 
 
 	$scope.contacts = ContactService;
 
 	//Using this to create a initiate the trigger to pop up the edit form
 	$scope.contacts.selectedPerson = $scope.contacts.getPerson($stateParams.email);
-
-
 
 	$scope.save = function () {
 		$scope.contacts.updateContact($scope.contacts.selectedPerson).then(function(){
@@ -95,6 +95,20 @@ app.controller('PersonDetailController', function ($scope,$stateParams,$state, C
 			$state.go("list");
 		});
 	}
+});
+
+app.controller('PersonCreateController', function ($scope, $state, ContactService) {
+	$scope.mode = "Create";
+
+	$scope.contacts = ContactService;
+
+	$scope.save = function () {
+		console.log("createContact");
+		$scope.contacts.createContact($scope.contacts.selectedPerson)
+			.then(function () {
+				$state.go("list");
+			})
+	};
 });
 
 app.controller('PersonListController', function ($scope, $modal, ContactService) {
@@ -115,14 +129,6 @@ app.controller('PersonListController', function ($scope, $modal, ContactService)
 			template: 'templates/modal.create.tpl.html',
 			show: true
 		})
-	};
-
-	$scope.createContact = function () {
-		console.log("createContact");
-		$scope.contacts.createContact($scope.contacts.selectedPerson)
-			.then(function () {
-				$scope.createModal.hide();
-			})
 	};
 
 	$scope.$watch('search', function (newVal, oldVal) {
@@ -205,7 +211,6 @@ app.service('ContactService', function (Contact, $rootScope,$q, toaster) {
 		},
 		'updateContact': function (person) {
 			var d = $q.defer();
-			console.log("Service Called Update");
 			self.isSaving = true;
 			person.$update().then(function () {
 				self.isSaving = false;
