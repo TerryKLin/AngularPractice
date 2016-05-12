@@ -15,24 +15,40 @@ app.config(function($stateProvider,$urlRouterProvider){
 	$stateProvider
 	.state('list',{
 		url:"/",
-		templateUrl:'templates/list.html',
-
-		/*This parameters directs everything happens in the list route
-		  When we hit the list route, insert the list.html template, and using
-		  the PersonListController to orchestrate the rest 
-		*/
-		controller:'PersonListController'
+		views:{
+			'main':{
+				templateUrl:'templates/list.html',
+				/*This parameters directs everything happens in the list route
+				  When we hit the list route, insert the list.html template, and using
+				  the PersonListController to orchestrate the rest 
+				*/
+				controller:'PersonListController'
+			},
+			'search':{
+				templateUrl:'templates/searchForm.html',
+				controller:'PersonDetailController'
+			}
+		}
 	})
 	.state('edit',{
 		url:"/edit/:email",
-		templateUrl:'templates/edit.html',
-		controller:'PersonDetailController'
+		views:{
+			'main':{
+				templateUrl:'templates/edit.html',
+				controller:'PersonDetailController'
+			}
+		}
 	})
 	.state('create',{
 		url:"/create",
-		templateUrl:'templates/edit.html',
-		controller:'PersonCreateController'
-	});
+		views:{
+			'main':{
+				templateUrl:'templates/edit.html',
+				controller:'PersonCreateController'
+			}
+		}
+		
+	});	
 
 	$urlRouterProvider.otherwise('/');
 });
