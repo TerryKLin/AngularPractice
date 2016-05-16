@@ -77,9 +77,15 @@ app.factory("Contact", function ($resource) {
 });
 
 
-app.directive('ccSpinner', function(){
+app.directive('ccSpinner',function(){
 	return {
-		'templateUrl':'templates/spinner.html'
+		'transclude':true,
+		'restrict':'AEC',
+		'templateUrl':'templates/spinner.html',
+		'scope':{
+			'isLoading':'=',
+			'message':'@'
+		}
 	}
 })
 
