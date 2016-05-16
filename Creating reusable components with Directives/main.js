@@ -79,7 +79,6 @@ app.factory("Contact", function ($resource) {
 
 app.directive('ccSpinner',function(){
 	return {
-		'transclude':true,
 		'restrict':'AEC',
 		'templateUrl':'templates/spinner.html',
 		'scope':{
@@ -87,7 +86,17 @@ app.directive('ccSpinner',function(){
 			'message':'@'
 		}
 	}
-})
+});
+
+app.directive('ccCard',function(){
+	return {
+		'restrict':'AE',
+		'templateUrl':'templates/card.html',
+		'scope':{
+			'user':'='
+		}
+	}
+});
 
 app.controller('PersonDetailController', function ($scope, $stateParams, $state, ContactService) {
 	$scope.mode = "Edit";
